@@ -1,10 +1,26 @@
+import { useState } from "react";
+
 export default function NoteForm({
   handleSubmit,
-  handleChange,
   submitOnEnter,
   isEditMode,
-  noteData,
+  user,
+  noteContent,
+  toggleEdit,
 }) {
+  const [updateFormData, setUpdateFormData] = useState({
+    text: noteContent.text,
+    user: user,
+  });
+  const [error, setError] = useState("");
+
+  function handleChange(evt) {
+    setUpdateFormData({
+      ...updateFormData,
+      [evt.target.name]: evt.target.value,
+    });
+    setError("");
+  }
   return (
     <div>
       <div className={`form-container ${isEditMode ? "" : "hidden"}`}>
@@ -16,12 +32,17 @@ export default function NoteForm({
             cols="40"
             name="text"
             placeholder="New note..."
-            value={noteData.text}
+            value={updateFormData.text}
             onChange={handleChange}
             onKeyDown={submitOnEnter}
             required
           />
-          <button type="submit">Save Note</button>
+          <div className="button-row">
+            <button type="submit">Save Note</button>
+            <button type="button" onClick={toggleEdit}>
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

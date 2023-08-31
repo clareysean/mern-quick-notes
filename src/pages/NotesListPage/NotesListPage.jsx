@@ -35,11 +35,11 @@ export default function Notelist({ user }) {
     setError("");
   }
 
-  async function handleSubmit(evt) {
+  async function handleSubmit(evt, data) {
     // Prevent form from being submitted to the server
     evt.preventDefault();
     try {
-      const newNote = await addNote(noteData);
+      const newNote = await addNote(data);
       setNotes((prevNotes) => [...prevNotes, newNote]);
       setNoteData({ ...noteData, text: "" });
     } catch {
@@ -86,7 +86,10 @@ export default function Notelist({ user }) {
       )}
       <div>
         <div className="form-container">
-          <form autoComplete="off" onSubmit={handleSubmit}>
+          <form
+            autoComplete="off"
+            onSubmit={(evt) => handleSubmit(evt, noteData)}
+          >
             <label>New Note:</label>
             <textarea
               type="text"

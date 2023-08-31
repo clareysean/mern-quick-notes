@@ -144,11 +144,16 @@ input:focus {
   border-color: var(--orange);
 }
 
+.button-row {
+  display: flex;
+  flex-direction: row;
+}
+
 button,
 a.button {
-  margin: 0 auto;
   grid-column: 2;
-  width: 50%;
+  display: inline-block;
+  width: 30%;
   padding: 1vmin;
   color: var(--white);
   background-color: var(--orange);
@@ -177,11 +182,6 @@ button:disabled,
 form:invalid button[type="submit"] {
   cursor: not-allowed;
   background-color: rgb(202, 156, 70);
-}
-
-button[type="submit"] {
-  grid-column: span 2;
-  margin: 1vmin 0 0;
 }
 
 button:hover {
