@@ -10,11 +10,22 @@ export default function Note({
   submitOnEnter,
   noteData,
   handleSubmit,
+  handleUpdate,
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleToggleEdit() {
     setIsEditMode(!isEditMode);
+  }
+
+  async function handleSaveClick(e, updateFormData, note) {
+    try {
+      await handleUpdate(e, updateFormData, note);
+      setIsEditMode(!isEditMode);
+    } catch {
+      setError("Failed to update note!");
+    }
   }
 
   const createdAtDate = new Date(note.createdAt);
@@ -41,6 +52,7 @@ export default function Note({
         isEditMode={isEditMode}
         user={user}
         noteContent={note}
+        handleSaveClick={handleSaveClick}
       />
     </>
   );

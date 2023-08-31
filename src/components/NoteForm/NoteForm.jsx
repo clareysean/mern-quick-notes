@@ -1,12 +1,13 @@
 import { useState } from "react";
 
 export default function NoteForm({
-  handleSubmit,
   submitOnEnter,
   isEditMode,
   user,
   noteContent,
   toggleEdit,
+  handleSaveClick,
+  note,
 }) {
   const [updateFormData, setUpdateFormData] = useState({
     text: noteContent.text,
@@ -24,7 +25,10 @@ export default function NoteForm({
   return (
     <div>
       <div className={`form-container ${isEditMode ? "" : "hidden"}`}>
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form
+          autoComplete="off"
+          onSubmit={(e) => handleSaveClick(e, updateFormData, note)}
+        >
           <label>New Note:</label>
           <textarea
             type="text"

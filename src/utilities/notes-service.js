@@ -14,3 +14,7 @@ export async function deleteNote(noteId) {
   console.log(`NOTE SENT IS${noteId}`);
   return notesAPI.deleteNote(noteId);
 }
+
+export async function updateNote(noteData, note) {
+  return notesAPI.updateNote(noteData, note);
+}

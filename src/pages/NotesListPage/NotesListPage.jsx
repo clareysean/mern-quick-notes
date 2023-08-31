@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react"; // Don't forget to import React
-import { getNotes, addNote, deleteNote } from "../../utilities/notes-service";
+import {
+  getNotes,
+  addNote,
+  deleteNote,
+  updateNote,
+} from "../../utilities/notes-service";
 import { getUser } from "../../utilities/users-service";
 import Note from "../../components/Note/Note";
 
@@ -35,15 +40,26 @@ export default function Notelist({ user }) {
     setError("");
   }
 
-  async function handleSubmit(evt, data) {
+  async function handleSubmit(evt) {
     // Prevent form from being submitted to the server
     evt.preventDefault();
     try {
-      const newNote = await addNote(data);
+      const newNote = await addNote(noteData);
       setNotes((prevNotes) => [...prevNotes, newNote]);
       setNoteData({ ...noteData, text: "" });
     } catch {
       setError("Failed to create note!");
+    }
+  }
+
+  async function handleUpdate(evt, data, note) {
+    evt.preventDefault();
+    try {
+      await updateNote(data, note);
+      const fetchedNotes = await getNotes(user);
+      setNotes(fetchedNotes);
+    } catch {
+      setError("Failed to update note!");
     }
   }
 
@@ -78,6 +94,7 @@ export default function Notelist({ user }) {
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               noteData={noteData}
+              handleUpdate={handleUpdate}
             />
           </>
         )) // *
@@ -86,10 +103,7 @@ export default function Notelist({ user }) {
       )}
       <div>
         <div className="form-container">
-          <form
-            autoComplete="off"
-            onSubmit={(evt) => handleSubmit(evt, noteData)}
-          >
+          <form autoComplete="off" onSubmit={handleSubmit}>
             <label>New Note:</label>
             <textarea
               type="text"

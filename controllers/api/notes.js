@@ -6,6 +6,7 @@ module.exports = {
   index,
   create,
   delete: deleteNote,
+  update,
 };
 
 async function index(req, res) {
@@ -36,7 +37,6 @@ async function create(req, res) {
 }
 
 async function deleteNote(req, res) {
-  console.log(`note id in controller is ${req.params.id}`);
   try {
     const noteId = req.params.id;
 
@@ -48,6 +48,19 @@ async function deleteNote(req, res) {
     res.status(200).json({ message: "File deleted successfully" });
   } catch (error) {
     console.error("Error deleting file:", error);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+}
+
+async function update(req, res) {
+  console.log(`note id in controller is ${req.params.id}`);
+  console.log(req.body);
+  try {
+    const noteId = req.params.id;
+    await Note.findByIdAndUpdate(noteId, { text: req.body.text });
+    res.status(200).json({ message: "File updated successfully" });
+  } catch (error) {
+    console.error("Error updating file:", error);
     return res.status(500).json({ message: "An error occurred" });
   }
 }
