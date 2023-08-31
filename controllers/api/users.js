@@ -1,10 +1,6 @@
-const { query } = require("express");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
-const SALT_ROUNDS = 6;
 
 module.exports = {
   create,
@@ -72,6 +68,6 @@ async function login(req, res) {
 
 function checkToken(req, res) {
   // req.user will always be there for you when a token is sent
-  console.log("req.user", req.user);
+  // console.log("req.user", req.user);
   res.json(req.exp);
 }
